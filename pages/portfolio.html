@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Na Marginesach</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 20px var(--margin);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── PORTFOLIO GRID ── */
+    .portfolio-section {
+      background: var(--white);
+      padding: 48px var(--margin) 72px;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gap);
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .portfolio-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: box-shadow 0.2s, opacity 0.2s;
+    }
+    .portfolio-card:hover { box-shadow: var(--shadow-md); }
+    .portfolio-card.hidden { display: none; }
+
+    /* Card image area */
+    .card-image {
+      height: 200px;
+      display: flex;
+    }
+
+    /* Left doc preview ~35% */
+    .card-doc {
+      width: 35%;
+      background: #f8f9fa;
+      border-right: 1px solid var(--border);
+      padding: 12px 10px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      overflow: hidden;
+    }
+    .card-doc-tag {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+      width: fit-content;
+    }
+    .doc-line {
+      height: 5px;
+      background: var(--gray-mid);
+      border-radius: 2px;
+      width: 100%;
+    }
+    .doc-line.short { width: 65%; }
+    .doc-line.medium { width: 80%; }
+    .doc-line.highlight { background: rgba(62,149,179,0.3); }
+
+    /* Right image placeholder ~65% */
+    .card-img-placeholder {
+      width: 65%;
+      background: var(--gray-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-img-placeholder::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    }
+    /* diagonal cross lines */
+    .card-img-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.2) 49%, rgba(255,255,255,0.2) 51%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.2) 49%, rgba(255,255,255,0.2) 51%, transparent 52%);
+    }
+
+    /* Card body */
+    .card-body {
+      padding: 20px;
+    }
+    .card-category {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .card-body h3 {
+      font-size: 16px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .card-body p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-pdf {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--teal);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .card-pdf:hover { color: var(--navy); }
+    .card-year {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* CTA — navy dark variant */
+    .cta-navy {
+      background: var(--navy-dark);
+      padding: 96px var(--margin);
+      text-align: center;
+    }
+    .cta-navy h2 { color: var(--white); }
+    .cta-navy p { color: rgba(255,255,255,0.75); margin: 16px auto 40px; max-width: 480px; }
+
+    @media (max-width: 768px) {
+      .portfolio-grid { grid-template-columns: 1fr 1fr; }
+      .filter-bar { padding: 16px 40px; }
+    }
+    @media (max-width: 480px) {
+      .portfolio-grid { grid-template-columns: 1fr; }
+      .filter-bar { padding: 16px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Na<span>Marginesach</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="o-firmie.html">O firmie</a></li>
+        <li><a href="oferta.html">Oferta</a></li>
+        <li><a href="portfolio.html" class="active">Portfolio</a></li>
+      </ul>
+      <a href="kontakt.html" class="btn-nav">Kontakt</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-overlay" id="mobile-overlay">
+  <a href="o-firmie.html">O firmie</a>
+  <a href="oferta.html">Oferta</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="kontakt.html" class="btn-nav">Kontakt</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Portfolio</span>
+    <h1>Wybrane realizacje<br>i projekty</h1>
+    <p>Przegląd projektów — korekta, redakcja i teksty akademickie. Każdy tekst to osobna historia.</p>
+  </div>
+</section>
+
+<!-- ── FILTER BAR ── -->
+<div class="filter-bar">
+  <button class="filter-pill active" data-filter="wszystkie">Wszystkie</button>
+  <button class="filter-pill" data-filter="korekta">Korekta</button>
+  <button class="filter-pill" data-filter="redakcja">Redakcja</button>
+  <button class="filter-pill" data-filter="prace-akademickie">Prace akademickie</button>
+  <button class="filter-pill" data-filter="teksty-biznesowe">Teksty biznesowe</button>
+</div>
+
+<!-- ── PORTFOLIO GRID ── -->
+<section class="portfolio-section">
+  <div class="portfolio-grid" id="portfolio-grid">
+
+    <!-- Card 1 -->
+    <div class="portfolio-card" data-category="korekta">
+      <div class="card-image">
+        <div class="card-doc">
+          <span class="card-doc-tag">Korekta</span>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line medium"></div>
+        </div>
+        <div class="card-img-placeholder"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-category">Korekta</span>
+        <h3>Powieść obyczajowa</h3>
+        <p>Korekta językowa całości, ok. 120 000 znaków. Realizacja w 5 dni roboczych.</p>
+        <div class="card-footer">
+          <!-- TODO: replace href with real PDF path -->
+          <a href="#" class="card-pdf">Pobierz PDF →</a>
+          <span class="card-year">2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="portfolio-card" data-category="korekta">
+      <div class="card-image">
+        <div class="card-doc">
+          <span class="card-doc-tag">Korekta</span>
+          <div class="doc-line"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line short"></div>
+        </div>
+        <div class="card-img-placeholder"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-category">Korekta</span>
+        <h3>Powieść obyczajowa</h3>
+        <p>Korekta językowa całości, ok. 120 000 znaków. Realizacja w 5 dni roboczych.</p>
+        <div class="card-footer">
+          <!-- TODO: replace href with real PDF path -->
+          <a href="#" class="card-pdf">Pobierz PDF →</a>
+          <span class="card-year">2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="portfolio-card" data-category="korekta">
+      <div class="card-image">
+        <div class="card-doc">
+          <span class="card-doc-tag">Korekta</span>
+          <div class="doc-line short"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line medium"></div>
+        </div>
+        <div class="card-img-placeholder"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-category">Korekta</span>
+        <h3>Powieść obyczajowa</h3>
+        <p>Korekta językowa całości, ok. 120 000 znaków. Realizacja w 5 dni roboczych.</p>
+        <div class="card-footer">
+          <!-- TODO: replace href with real PDF path -->
+          <a href="#" class="card-pdf">Pobierz PDF →</a>
+          <span class="card-year">2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="portfolio-card" data-category="korekta">
+      <div class="card-image">
+        <div class="card-doc">
+          <span class="card-doc-tag">Korekta</span>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+        </div>
+        <div class="card-img-placeholder"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-category">Korekta</span>
+        <h3>Powieść obyczajowa</h3>
+        <p>Korekta językowa całości, ok. 120 000 znaków. Realizacja w 5 dni roboczych.</p>
+        <div class="card-footer">
+          <!-- TODO: replace href with real PDF path -->
+          <a href="#" class="card-pdf">Pobierz PDF →</a>
+          <span class="card-year">2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="portfolio-card" data-category="korekta">
+      <div class="card-image">
+        <div class="card-doc">
+          <span class="card-doc-tag">Korekta</span>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+        </div>
+        <div class="card-img-placeholder"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-category">Korekta</span>
+        <h3>Powieść obyczajowa</h3>
+        <p>Korekta językowa całości, ok. 120 000 znaków. Realizacja w 5 dni roboczych.</p>
+        <div class="card-footer">
+          <!-- TODO: replace href with real PDF path -->
+          <a href="#" class="card-pdf">Pobierz PDF →</a>
+          <span class="card-year">2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="portfolio-card" data-category="korekta">
+      <div class="card-image">
+        <div class="card-doc">
+          <span class="card-doc-tag">Korekta</span>
+          <div class="doc-line short"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line"></div>
+          <div class="doc-line highlight"></div>
+          <div class="doc-line medium"></div>
+          <div class="doc-line short"></div>
+          <div class="doc-line"></div>
+        </div>
+        <div class="card-img-placeholder"></div>
+      </div>
+      <div class="card-body">
+        <span class="card-category">Korekta</span>
+        <h3>Powieść obyczajowa</h3>
+        <p>Korekta językowa całości, ok. 120 000 znaków. Realizacja w 5 dni roboczych.</p>
+        <div class="card-footer">
+          <!-- TODO: replace href with real PDF path -->
+          <a href="#" class="card-pdf">Pobierz PDF →</a>
+          <span class="card-year">2024</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /portfolio-grid -->
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-navy">
+  <h2>Chcesz znaleźć się w tym gronie?</h2>
+  <p>Wyślij tekst i otrzymaj bezpłatną wycenę w 24 godziny.</p>
+  <div class="cta-btns">
+    <a href="kontakt.html" class="btn-white">Zapytaj o wycenę</a>
+    <a href="oferta.html" class="btn-outline-white">Zobacz ofertę</a>
+  </div>
+</section>
+
+<!-- ── SLIM FOOTER ── -->
+<footer class="slim">
+  <div class="footer-slim">
+    <a href="index.html" class="footer-logo">Na<span>Marginesach</span></a>
+    <span class="footer-copy">© 2025 Na Marginesach · Wszelkie prawa zastrzeżone</span>
+    <div class="footer-links">
+      <a href="o-firmie.html">O firmie</a>
+      <a href="oferta.html">Oferta</a>
+      <a href="kontakt.html">Kontakt</a>
+    </div>
+  </div>
+</footer>
+
+<script src="portfolio.js"></script>
+</body>
+</html>

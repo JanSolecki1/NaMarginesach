@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>O firmie — Na Marginesach</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── PAGE-SPECIFIC STYLES ── */
+
+    /* Intro two-column */
+    .intro {
+      background: var(--white);
+      padding: 96px var(--margin);
+    }
+    .intro-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 64px;
+      align-items: center;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    .intro-photo {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      background: var(--gray-mid);
+    }
+    .intro-photo img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .intro-right p {
+      color: var(--muted);
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+    .intro-right p:last-of-type { margin-bottom: 40px; }
+
+    /* Stats with left border variant */
+    .stats-bordered {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 40px;
+    }
+    .stat-bordered {
+      padding: 0 28px;
+      border-left: 3px solid var(--teal);
+    }
+    .stat-bordered:first-child { padding-left: 0; border-left: none; border-left: 3px solid var(--teal); }
+    .stat-bordered + .stat-bordered { margin-left: 24px; }
+    .stat-bordered .stat-number { font-size: 32px; font-weight: 700; color: var(--navy); display: block; line-height: 1.1; }
+    .stat-bordered .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; display: block; }
+
+    /* Values */
+    .values {
+      background: var(--gray-light);
+      padding: 96px var(--margin);
+    }
+    .values-inner { max-width: var(--max-width); margin: 0 auto; }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+      margin-top: 48px;
+    }
+    .value-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--teal);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+    }
+    .value-card h3 { font-size: 17px; margin-bottom: 10px; }
+    .value-card p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+    /* Process (light) */
+    .process-section {
+      background: var(--white);
+      padding: 96px var(--margin);
+    }
+    .process-section .process-inner { max-width: var(--max-width); margin: 0 auto; }
+    .process-section .process-header { text-align: center; margin-bottom: 64px; }
+
+    @media (max-width: 768px) {
+      .intro-inner { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .stats-bordered { gap: 16px; }
+    }
+    @media (max-width: 480px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .stats-bordered { grid-template-columns: 1fr; gap: 20px; }
+      .stat-bordered { padding-left: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Na<span>Marginesach</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="o-firmie.html" class="active">O firmie</a></li>
+        <li><a href="oferta.html">Oferta</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+      </ul>
+      <a href="kontakt.html" class="btn-nav">Kontakt</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-overlay" id="mobile-overlay">
+  <a href="o-firmie.html">O firmie</a>
+  <a href="oferta.html">Oferta</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="kontakt.html" class="btn-nav">Kontakt</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">O firmie</span>
+    <h1>Poznaj Na Marginesach<br>i poznaj Mnie</h1>
+    <p>Redaktorka z pasją do języka, dbałością o szczegóły i szacunkiem dla każdego tekstu.</p>
+  </div>
+</section>
+
+<!-- ── INTRO ── -->
+<section class="intro">
+  <div class="intro-inner">
+    <div class="intro-photo">
+      <!-- Replace src with actual portrait photo -->
+      <img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?w=600&q=80" alt="Na Marginesach — redaktorka" />
+    </div>
+    <div class="intro-right">
+      <span class="eyebrow">O mnie</span>
+      <h2>Doświadczenie, które widać w tekście</h2>
+      <p>Jestem filologiem z wieloletnim doświadczeniem w pracy redakcyjnej. Współpracowałam z autorami, wydawnictwami i uczelniami wyższymi w całej Polsce.</p>
+      <p>Moja praca to nie tylko korekta — to troska o to, by każdy tekst był czytelny, spójny i piękny w swojej prostocie. Każde zdanie traktuję z szacunkiem do autora.</p>
+
+      <div class="stats-bordered" id="stats-row">
+        <div class="stat-bordered">
+          <span class="stat-number" data-target="500" data-suffix="+">0</span>
+          <span class="stat-label">Projektów ukończonych</span>
+        </div>
+        <div class="stat-bordered">
+          <span class="stat-number" data-target="8" data-suffix=" lat">0</span>
+          <span class="stat-label">Doświadczenia</span>
+        </div>
+        <div class="stat-bordered">
+          <span class="stat-number" data-target="100" data-suffix="%">0</span>
+          <span class="stat-label">Zadowolonych klientów</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VALUES ── -->
+<section class="values">
+  <div class="values-inner">
+    <span class="eyebrow">Wartości</span>
+    <h2>Co mnie wyróżnia?</h2>
+    <div class="values-grid">
+      <div class="value-card">
+        <h3>Precyzja</h3>
+        <p>Każdy błąd zostaje wychwycony. Dbam o każde słowo i przecinek. Nie ma zbyt małych szczegółów.</p>
+      </div>
+      <div class="value-card">
+        <h3>Szacunek do autora</h3>
+        <p>Poprawiam formę, zachowując Twój głos i styl narracji. Tekst pozostaje Twój.</p>
+      </div>
+      <div class="value-card">
+        <h3>Terminowość</h3>
+        <p>Zawsze dostarczam w terminie. Twój deadline to mój priorytet. Bez wymówek, bez opóźnień.</p>
+      </div>
+      <div class="value-card">
+        <h3>Poufność</h3>
+        <p>Twój tekst to Twoja własność. Nigdy nie udostępniam treści osobom trzecim.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section class="process-section">
+  <div class="process-inner">
+    <div class="process-header">
+      <span class="eyebrow">Jak ja działam</span>
+      <h2>Trzy proste kroki</h2>
+    </div>
+    <div class="steps">
+      <div class="step-card-light">
+        <div class="step-number">1</div>
+        <h3>Wyślij tekst</h3>
+        <p>Prześlij plik mailem lub przez formularz kontaktowy.</p>
+        <div class="step-connector-light"></div>
+      </div>
+      <div class="step-card-light">
+        <div class="step-number">2</div>
+        <h3>Wycena</h3>
+        <p>Otrzymasz wycenę i termin w ciągu kilku godzin.</p>
+        <div class="step-connector-light"></div>
+      </div>
+      <div class="step-card-light">
+        <div class="step-number">3</div>
+        <h3>Realizacja</h3>
+        <p>Po akceptacji przystępuję do pracy w terminie.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-banner">
+  <h2>Chcesz porozmawiać?</h2>
+  <p>Napisz do mnie — chętnie opowiem więcej o swojej pracy.</p>
+  <div class="cta-btns">
+    <a href="kontakt.html" class="btn-white">Skontaktuj się</a>
+    <a href="oferta.html" class="btn-outline-teal">Zobacz ofertę</a>
+  </div>
+</section>
+
+<!-- ── SLIM FOOTER ── -->
+<footer class="slim">
+  <div class="footer-slim">
+    <a href="index.html" class="footer-logo">Na<span>Marginesach</span></a>
+    <span class="footer-copy">© 2025 Na Marginesach · Wszelkie prawa zastrzeżone</span>
+    <div class="footer-links">
+      <a href="o-firmie.html">O firmie</a>
+      <a href="oferta.html">Oferta</a>
+      <a href="kontakt.html">Kontakt</a>
+    </div>
+  </div>
+</footer>
+
+<script src="o-firmie.js"></script>
+</body>
+</html>

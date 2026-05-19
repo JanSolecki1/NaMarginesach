@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontakt — Na Marginesach</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── CONTACT AREA ── */
+    .contact-area {
+      background: var(--white);
+      padding: 72px var(--margin);
+    }
+    .contact-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 40px;
+    }
+    .form-card h3 { font-size: 22px; margin-bottom: 6px; }
+    .form-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--gray-mid); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(62,149,179,0.12);
+    }
+    .form-group input.error,
+    .form-group select.error,
+    .form-group textarea.error { border-color: #e05252; }
+
+    /* Select arrow */
+    .select-wrap { position: relative; }
+    .select-wrap::after {
+      content: '›';
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+      color: var(--muted);
+      pointer-events: none;
+      font-size: 16px;
+    }
+    .select-wrap select { padding-right: 36px; cursor: pointer; }
+    .select-wrap select option[value=""] { color: var(--gray-mid); }
+
+    .form-group textarea {
+      min-height: 160px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    /* File upload */
+    .file-zone {
+      border: 1.5px dashed var(--border);
+      background: var(--gray-light);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      margin-bottom: 20px;
+    }
+    .file-zone:hover { border-color: var(--teal); background: var(--teal-light); }
+    .file-zone-label { font-size: 14px; color: var(--muted); pointer-events: none; }
+    .file-name { font-size: 13px; color: var(--teal); margin-top: 8px; font-weight: 500; }
+    input[type="file"] { display: none; }
+
+    /* Checkbox */
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .checkbox-row input[type="checkbox"] {
+      width: 18px; height: 18px;
+      flex-shrink: 0; margin-top: 2px;
+      accent-color: var(--navy);
+      cursor: pointer;
+    }
+    .checkbox-row label {
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1.5;
+    }
+    .checkbox-row.error label { color: #e05252; }
+
+    /* Error messages */
+    .field-error {
+      font-size: 12px;
+      color: #e05252;
+      margin-top: 4px;
+      display: none;
+    }
+    .field-error.visible { display: block; }
+
+    /* Submit button */
+    .btn-submit {
+      width: 100%;
+      height: 52px;
+      background: var(--navy-dark);
+      color: var(--white);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-submit:hover { background: var(--navy); }
+
+    /* Success message */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .success-msg.visible { display: block; }
+    .success-icon {
+      width: 56px; height: 56px;
+      background: var(--teal-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .success-icon svg { color: var(--teal); }
+    .success-msg h3 { color: var(--navy); margin-bottom: 8px; }
+    .success-msg p { color: var(--muted); font-size: 15px; }
+
+    /* ── INFO PANEL ── */
+    .info-card {
+      background: var(--gray-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+    }
+    .info-card h3 { font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 24px; }
+
+    .contact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .contact-icon-sq {
+      width: 36px; height: 36px;
+      background: var(--navy-dark);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--white);
+    }
+    .contact-row-text .row-label {
+      font-size: 12px; color: var(--muted); margin-bottom: 2px; display: block;
+    }
+    .contact-row-text .row-value {
+      font-size: 15px; font-weight: 700; color: var(--navy);
+    }
+
+    .info-divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    .info-note {
+      font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 24px;
+    }
+    .info-note strong { color: var(--text); font-weight: 600; }
+
+    .phone-note {
+      text-align: center;
+    }
+    .phone-icon {
+      font-size: 28px; display: block; margin-bottom: 10px;
+    }
+    .phone-note p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── FULL FOOTER ── */
+    footer.full { background: var(--navy-dark); padding: 64px var(--margin) 0; }
+
+    @media (max-width: 768px) {
+      .contact-inner { grid-template-columns: 1fr; }
+      .form-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Na<span>Marginesach</span></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="o-firmie.html">O firmie</a></li>
+        <li><a href="oferta.html">Oferta</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+      </ul>
+      <a href="kontakt.html" class="btn-nav" style="background:var(--teal);color:var(--white);">Kontakt</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-overlay" id="mobile-overlay">
+  <a href="o-firmie.html">O firmie</a>
+  <a href="oferta.html">Oferta</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="kontakt.html" class="btn-nav">Kontakt</a>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Kontakt</span>
+    <h1>Napisz do mnie lub<br>zamów wycenę</h1>
+    <p>Chętnie odpowiem na pytania i wycenię Twój tekst. Odpowiadam zwykle w ciągu kilku godzin.</p>
+  </div>
+</section>
+
+<!-- ── CONTACT AREA ── -->
+<section class="contact-area">
+  <div class="contact-inner">
+
+    <!-- FORM CARD -->
+    <div class="form-card">
+      <div id="form-wrapper">
+        <h3>Wyślij wiadomość</h3>
+        <p class="form-subtitle">Opisz swój tekst i oczekiwania — wycena jest bezpłatna.</p>
+
+        <form id="contact-form" novalidate>
+
+          <div class="form-group">
+            <label for="name">Imię i nazwisko</label>
+            <input type="text" id="name" name="name" placeholder="Jan Kowalski" />
+            <span class="field-error" id="name-error">To pole jest wymagane.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Adres e-mail</label>
+            <input type="email" id="email" name="email" placeholder="jan@example.com" />
+            <span class="field-error" id="email-error">Podaj poprawny adres e-mail.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="service">Rodzaj usługi</label>
+            <div class="select-wrap">
+              <select id="service" name="service">
+                <option value="">Wybierz rodzaj usługi...</option>
+                <option value="korekta">Korekta językowa</option>
+                <option value="redakcja">Redakcja tekstu</option>
+                <option value="akademickie">Prace akademickie</option>
+                <option value="wydawnicze">Obsługa projektów wydawniczych</option>
+              </select>
+            </div>
+            <span class="field-error" id="service-error">Wybierz rodzaj usługi.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Wiadomość</label>
+            <textarea id="message" name="message" placeholder="Opisz swój tekst — długość, rodzaj, termin..."></textarea>
+            <span class="field-error" id="message-error">To pole jest wymagane.</span>
+          </div>
+
+          <!-- File upload -->
+          <div class="file-zone" id="file-zone">
+            <input type="file" id="file-input" accept=".doc,.docx,.pdf,.txt" />
+            <span class="file-zone-label">📎 Dołącz plik (opcjonalnie) — .docx, .pdf, .txt</span>
+            <div class="file-name" id="file-name"></div>
+          </div>
+
+          <!-- Checkbox -->
+          <div class="checkbox-row" id="privacy-row">
+            <input type="checkbox" id="privacy" name="privacy" />
+            <label for="privacy">Akceptuję politykę prywatności i wyrażam zgodę na przetwarzanie danych.</label>
+          </div>
+          <span class="field-error" id="privacy-error">Zgoda jest wymagana.</span>
+
+          <button type="submit" class="btn-submit">Wyślij wiadomość</button>
+        </form>
+      </div>
+
+      <!-- Success state -->
+      <div class="success-msg" id="success-msg">
+        <div class="success-icon">
+          <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        <h3>Wiadomość wysłana!</h3>
+        <p>Odezwę się wkrótce — zwykle w ciągu kilku godzin.</p>
+      </div>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="info-card">
+      <h3>Dane kontaktowe</h3>
+
+      <div class="contact-row">
+        <div class="contact-icon-sq">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div class="contact-row-text">
+          <span class="row-label">E-mail</span>
+          <span class="row-value">namarginesach@wp.pl</span>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <div class="contact-icon-sq">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="contact-row-text">
+          <span class="row-label">Czas odpowiedzi</span>
+          <span class="row-value">Zwykle w ciągu 2–4 godzin</span>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <div class="contact-icon-sq">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <div class="contact-row-text">
+          <span class="row-label">Godziny pracy</span>
+          <span class="row-value">Pn.–Pt., 8:00–18:00</span>
+        </div>
+      </div>
+
+      <hr class="info-divider" />
+
+      <p class="info-note">* aby uzyskać wycenę, prześlij plik lub podaj liczbę znaków ze spacjami (sama <strong>liczba stron nie wystarczy</strong>, ponieważ w zależności od formatowania jeden tekst może liczyć 1300–1400, a inny nawet ponad 4000 znaków na stronie).</p>
+
+      <div class="phone-note">
+        <span class="phone-icon">📞</span>
+        <p>Zapraszam do sprawnego kontaktu e-mailowego (ze względu na konieczność precyzyjnego archiwizowania wszelkich ustaleń, nie korzystamy z telefonów, które są zbyt zawodne).</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FULL FOOTER ── -->
+<footer class="full">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <span class="footer-brand">Na<span>Marginesach</span></span>
+      <p>Profesjonalna redakcja i korekta tekstów.</p>
+      <p>namarginesach@wp.pl</p>
+    </div>
+    <div class="footer-col">
+      <h4>Usługi</h4>
+      <ul>
+        <li><a href="oferta.html">Korekta językowa</a></li>
+        <li><a href="oferta.html">Redakcja tekstu</a></li>
+        <li><a href="oferta.html">Prace akademickie</a></li>
+        <li><a href="oferta.html">Teksty biznesowe</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Firma</h4>
+      <ul>
+        <li><a href="o-firmie.html">O firmie</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Kontakt</h4>
+      <ul>
+        <li><a href="mailto:namarginesach@wp.pl">namarginesach@wp.pl</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Polityka prywatności</a></li>
+      </ul>
+    </div>
+  </div>
+  <hr class="footer-divider" />
+  <p class="footer-copyright">© 2025 Na Marginesach · Profesjonalna redakcja i korekta tekstów · namarginesach@wp.pl</p>
+</footer>
+
+<script src="kontakt.js"></script>
+</body>
+</html>
