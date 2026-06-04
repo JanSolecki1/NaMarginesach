@@ -9,13 +9,11 @@ document.getElementById('hamburger').addEventListener('click', () => {
   document.getElementById('mobile-overlay').classList.toggle('open');
 });
 
-// ── FAQ Accordion (one open at a time globally)
-const faqItems = document.querySelectorAll('.faq-item');
-faqItems.forEach(item => {
+// ── FAQ Accordion (multiple open allowed)
+document.querySelectorAll('.faq-item').forEach(item => {
   item.querySelector('.faq-question').addEventListener('click', () => {
-    const isOpen = item.classList.contains('open');
-    faqItems.forEach(i => i.classList.remove('open'));
-    if (!isOpen) item.classList.add('open');
+    const isOpen = item.classList.toggle('open');
+    item.querySelector('.faq-toggle').textContent = isOpen ? '−' : '+';
   });
 });
 

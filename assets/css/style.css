@@ -279,8 +279,15 @@ footer.full { background: var(--navy-dark); padding: 64px var(--margin) 0; }
 
 /* ── FAQ ── */
 .faq-item {
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: var(--radius-md); overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color 0.2s, background 0.2s;
+}
+.faq-item.open {
+  border-color: var(--teal);
+  background: var(--teal-light);
 }
 .faq-question {
   display: flex; align-items: center; justify-content: space-between;
@@ -288,12 +295,22 @@ footer.full { background: var(--navy-dark); padding: 64px var(--margin) 0; }
   font-size: 15px; font-weight: 600; color: var(--navy);
   user-select: none; gap: 12px;
 }
-.faq-question:hover { background: var(--gray-light); }
-.faq-toggle { font-size: 20px; font-weight: 400; color: var(--teal); flex-shrink: 0; transition: transform 0.3s; line-height: 1; }
-.faq-item.open .faq-toggle { transform: rotate(45deg); }
+.faq-item.open .faq-question { color: var(--teal); }
+.faq-question:hover { background: rgba(62,149,179,0.06); }
+.faq-toggle {
+  font-size: 22px; font-weight: 300; color: var(--teal);
+  flex-shrink: 0; line-height: 1;
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+}
 .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-.faq-item.open .faq-answer { max-height: 300px; }
-.faq-answer-inner { padding: 0 24px 20px; font-size: 14px; color: var(--muted); line-height: 1.7; }
+.faq-item.open .faq-answer { max-height: 400px; }
+.faq-answer-inner {
+  padding: 0 24px 20px;
+  font-size: 14px; color: var(--muted); line-height: 1.7;
+  border-top: 1px solid rgba(62,149,179,0.2);
+  margin-top: 0; padding-top: 16px;
+}
 
 /* ── PORTFOLIO FILTER ── */
 .filter-pill {
