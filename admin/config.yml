@@ -1,8 +1,6 @@
 backend:
-  name: github
-  repo: JanSolecki1/NaMarginesach
+  name: git-gateway
   branch: main
-  base_url: https://api.netlify.com
 
 media_folder: "images/portfolio"
 public_folder: "/images/portfolio"
