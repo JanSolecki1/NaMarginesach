@@ -10,8 +10,8 @@ document.getElementById('hamburger').addEventListener('click', () => {
 });
 
 // ── Config — update repo details
-const GITHUB_USER = 'username';       // ← zmień
-const GITHUB_REPO = 'na-marginesach'; // ← zmień
+const GITHUB_USER = 'JanSolecki1';      
+const GITHUB_REPO = 'NaMarginesach'; 
 const BRANCH = 'main';
 const FOLDER = '_portfolio';
 
