@@ -99,7 +99,7 @@ function buildCard(data) {
       <p>${data.description || ''}</p>
       <div class="card-footer">
         ${data.pdf
-          ? `<a href="${data.pdf}" class="card-pdf" target="_blank">Pobierz PDF →</a>`
+          ? `<a href="${data.pdf}" class="card-pdf" target="_blank">Zobacz PDF →</a>`
           : `<span></span>`}
         <span class="card-year">${data.year || ''}</span>
       </div>
