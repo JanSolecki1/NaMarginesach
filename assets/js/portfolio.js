@@ -9,11 +9,37 @@ document.getElementById('hamburger').addEventListener('click', () => {
   document.getElementById('mobile-overlay').classList.toggle('open');
 });
 
-// ── Config — update repo details
-const GITHUB_USER = 'JanSolecki1';      
-const GITHUB_REPO = 'NaMarginesach'; 
+// ── Config
+const GITHUB_USER = 'JanSolecki1';
+const GITHUB_REPO = 'NaMarginesach';
 const BRANCH = 'main';
 const FOLDER = '_portfolio';
+
+// ── Parse frontmatter from .md files
+// Format:
+// ---
+// title: "Tytuł"
+// category: korekta
+// ---
+function parseFrontmatter(text) {
+  const match = text.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const raw = match[1];
+  const result = {};
+  raw.split('\n').forEach(line => {
+    const colonIndex = line.indexOf(':');
+    if (colonIndex === -1) return;
+    const key = line.slice(0, colonIndex).trim();
+    let value = line.slice(colonIndex + 1).trim();
+    // Remove surrounding quotes if present
+    value = value.replace(/^["']|["']$/g, '');
+    // Convert boolean strings
+    if (value === 'true') value = true;
+    if (value === 'false') value = false;
+    result[key] = value;
+  });
+  return result;
+}
 
 // ── Filter logic
 const grid = document.getElementById('portfolio-grid');
@@ -26,7 +52,10 @@ pills.forEach(pill => {
     pill.classList.add('active');
     const filter = pill.dataset.filter;
     allCards.forEach(card => {
-      card.classList.toggle('hidden', filter !== 'wszystkie' && card.dataset.category !== filter);
+      card.classList.toggle(
+        'hidden',
+        filter !== 'wszystkie' && card.dataset.category !== filter
+      );
     });
   });
 });
@@ -79,7 +108,7 @@ function buildCard(data) {
   return card;
 }
 
-// ── Fetch all portfolio JSON files from GitHub
+// ── Fetch all .md files from GitHub and parse them
 async function loadPortfolio() {
   const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FOLDER}?ref=${BRANCH}`;
 
@@ -88,21 +117,26 @@ async function loadPortfolio() {
     if (!res.ok) throw new Error('GitHub API error');
     const files = await res.json();
 
-    const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+    const mdFiles = files.filter(f => f.name.endsWith('.md') && f.name !== '.gitkeep');
 
-    if (jsonFiles.length === 0) {
+    if (mdFiles.length === 0) {
       document.getElementById('loading-msg').textContent = 'Brak projektów do wyświetlenia.';
       return;
     }
 
     const projects = await Promise.all(
-      jsonFiles.map(f => fetch(f.download_url).then(r => r.json()))
+      mdFiles.map(f =>
+        fetch(f.download_url)
+          .then(r => r.text())
+          .then(text => parseFrontmatter(text))
+      )
     );
 
     // Remove loading message
-    document.getElementById('loading-msg').remove();
+    const loadingMsg = document.getElementById('loading-msg');
+    if (loadingMsg) loadingMsg.remove();
 
-    // Filter published only, render cards
+    // Render cards (skip unpublished)
     projects
       .filter(p => p.published !== false)
       .forEach(p => {
@@ -112,8 +146,8 @@ async function loadPortfolio() {
       });
 
   } catch (err) {
-    document.getElementById('loading-msg').textContent =
-      'Nie udało się załadować projektów.';
+    const loadingMsg = document.getElementById('loading-msg');
+    if (loadingMsg) loadingMsg.textContent = 'Nie udało się załadować projektów.';
     console.error(err);
   }
 }
