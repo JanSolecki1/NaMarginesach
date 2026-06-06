@@ -270,7 +270,7 @@
         <h3>Wyślij wiadomość</h3>
         <p class="form-subtitle">Opisz swój tekst i oczekiwania - wycena jest bezpłatna.</p>
 
-        <form id="contact-form" novalidate>
+        <form id="contact-form" action="https://formspree.io/f/mjgdgzwp" method="POST" novalidate>
 
           <div class="form-group">
             <label for="name">Imię i nazwisko</label>
@@ -287,20 +287,22 @@
           <div class="form-group">
             <label for="service">Rodzaj usługi</label>
             <div class="select-wrap">
-              <select id="service" name="service">
-                <option value="">Wybierz rodzaj usługi...</option>
-                <option value="korekta">Korekta językowa</option>
-                <option value="redakcja">Redakcja tekstu</option>
-                <option value="akademickie">Prace akademickie</option>
-                <option value="wydawnicze">Obsługa projektów wydawniczych</option>
-              </select>
+          <select id="service" name="service">
+            <option value="">Wybierz rodzaj usługi...</option>
+            <option value="projekt-graficzny">Projekt graficzny lub łamanie według szablonu</option>
+            <option value="korekta">Korekta językowa i redakcja tekstu</option>
+            <option value="akademickie">Prace akademickie</option>
+            <option value="wydawnicze">Obsługa projektów wydawniczych</option>
+            <option value="inne">Inne (opisz w wiadomości)</option>
+          </select>
             </div>
             <span class="field-error" id="service-error">Wybierz rodzaj usługi.</span>
           </div>
 
           <div class="form-group">
             <label for="message">Wiadomość</label>
-            <textarea id="message" name="message" placeholder="Opisz swój tekst — długość, rodzaj, termin..."></textarea>
+            <textarea id="message" name="message" placeholder="Opisz swój tekst — długość, rodzaj, termin..." maxlength="1000"></textarea>
+              <div class="char-counter"><span id="char-count">0</span> / 1000 znaków</div>
             <span class="field-error" id="message-error">To pole jest wymagane.</span>
           </div>
 
@@ -328,7 +330,7 @@
           <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path d="M20 6L9 17l-5-5"/>
           </svg>
-        </div>1
+        </div>
         <h3>Wiadomość wysłana!</h3>
         <p>Odezwę się wkrótce - zwykle w ciągu kilku godzin.</p>
       </div>

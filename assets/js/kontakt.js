@@ -15,49 +15,44 @@ const fileInput = document.getElementById('file-input');
 const fileName = document.getElementById('file-name');
 
 fileZone.addEventListener('click', () => fileInput.click());
-
 fileInput.addEventListener('change', () => {
-  if (fileInput.files.length > 0) {
-    fileName.textContent = fileInput.files[0].name;
-  } else {
-    fileName.textContent = '';
-  }
+  fileName.textContent = fileInput.files.length > 0 ? fileInput.files[0].name : '';
 });
 
-// ── Form validation
-const form = document.getElementById('contact-form');
+// ── Char counter
+const messageEl = document.getElementById('message');
+const charCount = document.getElementById('char-count');
+const charCounter = charCount.closest('.char-counter');
+const MAX_CHARS = 1000;
 
+messageEl.addEventListener('input', () => {
+  const len = messageEl.value.length;
+  charCount.textContent = len;
+  charCounter.classList.toggle('limit', len >= MAX_CHARS);
+});
+
+// ── Validation helpers
 function setError(fieldId, errorId, show) {
   const field = document.getElementById(fieldId);
   const error = document.getElementById(errorId);
-  if (show) {
-    field.classList.add('error');
-    error.classList.add('visible');
-  } else {
-    field.classList.remove('error');
-    error.classList.remove('visible');
-  }
+  field.classList.toggle('error', show);
+  error.classList.toggle('visible', show);
 }
 
 function setCheckboxError(show) {
-  const row = document.getElementById('privacy-row');
-  const error = document.getElementById('privacy-error');
-  if (show) {
-    row.classList.add('error');
-    error.classList.add('visible');
-  } else {
-    row.classList.remove('error');
-    error.classList.remove('visible');
-  }
+  document.getElementById('privacy-row').classList.toggle('error', show);
+  document.getElementById('privacy-error').classList.toggle('visible', show);
 }
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-form.addEventListener('submit', (e) => {
+// ── Form submit → Formspree
+const form = document.getElementById('contact-form');
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  let valid = true;
 
   const name = document.getElementById('name').value.trim();
   const email = document.getElementById('email').value.trim();
@@ -65,37 +60,56 @@ form.addEventListener('submit', (e) => {
   const message = document.getElementById('message').value.trim();
   const privacy = document.getElementById('privacy').checked;
 
-  // Name
-  if (!name) { setError('name', 'name-error', true); valid = false; }
-  else { setError('name', 'name-error', false); }
+  let valid = true;
 
-  // Email
-  if (!email || !isValidEmail(email)) { setError('email', 'email-error', true); valid = false; }
-  else { setError('email', 'email-error', false); }
+  setError('name', 'name-error', !name) || (valid = valid && !!name);
+  if (!name) valid = false;
 
-  // Service
-  if (!service) { setError('service', 'service-error', true); valid = false; }
-  else { setError('service', 'service-error', false); }
+  const emailOk = email && isValidEmail(email);
+  setError('email', 'email-error', !emailOk);
+  if (!emailOk) valid = false;
 
-  // Message
-  if (!message) { setError('message', 'message-error', true); valid = false; }
-  else { setError('message', 'message-error', false); }
+  setError('service', 'service-error', !service);
+  if (!service) valid = false;
 
-  // Privacy
-  if (!privacy) { setCheckboxError(true); valid = false; }
-  else { setCheckboxError(false); }
+  setError('message', 'message-error', !message);
+  if (!message) valid = false;
 
-  if (valid) {
-    document.getElementById('form-wrapper').style.display = 'none';
-    document.getElementById('success-msg').classList.add('visible');
+  setCheckboxError(!privacy);
+  if (!privacy) valid = false;
+
+  if (!valid) return;
+
+  // Send to Formspree
+  const submitBtn = form.querySelector('.btn-submit');
+  submitBtn.textContent = 'Wysyłanie...';
+  submitBtn.disabled = true;
+
+  try {
+    const formData = new FormData(form);
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: formData,
+      headers: { Accept: 'application/json' }
+    });
+
+    if (res.ok) {
+      document.getElementById('form-wrapper').style.display = 'none';
+      document.getElementById('success-msg').classList.add('visible');
+    } else {
+      submitBtn.textContent = 'Błąd — spróbuj ponownie';
+      submitBtn.disabled = false;
+    }
+  } catch {
+    submitBtn.textContent = 'Błąd — spróbuj ponownie';
+    submitBtn.disabled = false;
   }
 });
 
 // ── Clear errors on input
 ['name', 'email', 'service', 'message'].forEach(id => {
-  const el = document.getElementById(id);
-  el.addEventListener('input', () => {
-    el.classList.remove('error');
+  document.getElementById(id).addEventListener('input', () => {
+    document.getElementById(id).classList.remove('error');
     document.getElementById(id + '-error').classList.remove('visible');
   });
 });
