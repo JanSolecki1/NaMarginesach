@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: username/na-marginesach   # ← zmień na swoje
+  repo: JanSolecki1/NaMarginesach
   branch: main
   base_url: https://api.netlify.com
 
@@ -15,16 +15,38 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Tytuł projektu", name: "title", widget: "string" }
-      - { label: "Kategoria", name: "category", widget: "select",
-          options:
-            - { label: "Korekta", value: "korekta" }
-            - { label: "Redakcja", value: "redakcja" }
-            - { label: "Prace akademickie", value: "prace-akademickie" }
-            - { label: "Teksty biznesowe", value: "teksty-biznesowe" } }
-      - { label: "Opis", name: "description", widget: "text" }
-      - { label: "Rok", name: "year", widget: "string", default: "2025" }
-      - { label: "Zdjęcie / okładka", name: "image", widget: "image", required: false }
-      - { label: "Link do PDF", name: "pdf", widget: "string", required: false,
-          hint: "Wklej ścieżkę do pliku PDF lub zostaw puste" }
-      - { label: "Widoczny na stronie", name: "published", widget: "boolean", default: true }
+      - label: "Tytuł projektu"
+        name: "title"
+        widget: "string"
+      - label: "Kategoria"
+        name: "category"
+        widget: "select"
+        options:
+          - label: "Korekta"
+            value: "korekta"
+          - label: "Redakcja"
+            value: "redakcja"
+          - label: "Prace akademickie"
+            value: "prace-akademickie"
+          - label: "Teksty biznesowe"
+            value: "teksty-biznesowe"
+      - label: "Opis"
+        name: "description"
+        widget: "text"
+      - label: "Rok"
+        name: "year"
+        widget: "string"
+        default: "2025"
+      - label: "Zdjęcie / okładka"
+        name: "image"
+        widget: "image"
+        required: false
+      - label: "Link do PDF"
+        name: "pdf"
+        widget: "string"
+        required: false
+        hint: "Wklej ścieżkę do pliku PDF lub zostaw puste"
+      - label: "Widoczny na stronie"
+        name: "published"
+        widget: "boolean"
+        default: true
