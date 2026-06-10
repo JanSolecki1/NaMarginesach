@@ -7,6 +7,6 @@ description: Krótki opis książki (tzw. blurb) to chwytliwy tekst marketingowy
   wzbudzeniu emocji i skłonieniu czytelnika do zakupu.
 year: "2019"
 image: /images/portfolio/okl2.jpg
-pdf: file:///C:/Users/specj/Downloads/ksiazka2.pdf
+pdf: https://docs.google.com/document/d/1eWVHOYnf-sXbOlkEt_QyiOv964WRIYCh/edit
 published: true
 ---
